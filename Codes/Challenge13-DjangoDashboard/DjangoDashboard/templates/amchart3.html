@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+  max-width: 100%;
+}
+
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<!-- Chart code -->
+<script>
+  var endpoint = "http://127.0.0.1:8000/api/api"
+  var valuesArray = [];
+  var timestampArray = [];
+  var chartData = [];
+  am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+  var chart = am4core.create("chartdiv", am4charts.XYChart);
+  chart.paddingRight = 20;
+  //let timestampArrayTest = [];
+  $.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+    var valueData = data
+    var i;
+    for(i = 0; i< data.length; i++){
+      console.log("Length: ", valueData.length)
+      //valuesArray.push(data[i].value)
+      //timestampArray.push(data[i].zaman.toString())
+      console.log("Zaman Data: ", data[i].zaman)
+      chartData.push({date: data[i].zaman, value: data[i].value});
+      //var testVariable = data[i].zaman.toString().replace('Z','')
+      //timestampArrayTest.push(testVariable)
+      }
+      chart.data = chartData;
+      console.log("Chart Data: ", chartData);
+    },
+    error: function(error_data){
+      console.log("error")
+      console.log(error_data)
+      }
+  });
+
+//var datas = {{data}};
+
+//var times2 = {{time_time}};
+
+//var visits = 10;
+//for (var i = 1; i < 50000; i++) {
+  //visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+  //data.push({ date: new Date(2018, 0, i), value: visits });
+//}
+//console.log("Chart Data: ", chartData)
+//chart.data = chartData;
+
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+dateAxis.minZoomCount = 5;
+
+
+// this makes the data to be grouped
+dateAxis.groupData = true;
+dateAxis.groupCount = 500;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.dateX = "date";
+series.dataFields.valueY = "value";
+series.tooltipText = "{valueY}";
+series.tooltip.pointerOrientation = "vertical";
+series.tooltip.background.fillOpacity = 0.5;
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.xAxis = dateAxis;
+
+var scrollbarX = new am4core.Scrollbar();
+scrollbarX.marginBottom = 20;
+chart.scrollbarX = scrollbarX;
+
+}); // end am4core.ready()
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
+
+<br>
+<br>
+<hr>
+
+<p> timestampArray </p>
+
+{% endblock body %}

@@ -1,0 +1,230 @@
+﻿/*
+*  OSI GDPR JavaScript Library v1.0.18
+*/
+
+function osigdprSetCookieInHours(cookieName, cookieValue, expireInHours) {
+    var dt = new Date();
+    dt.setTime(dt.getTime() + (expireInHours * 3600000));
+    var expires = "expires=" + dt.toGMTString();
+    document.cookie = cookieName + "=" + cookieValue + ";Domain=" + osiDomain + ";" + expires + ";path=/";
+}
+
+function osigdprGetCookie(cookieName) {
+    var name = cookieName + "=";
+
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function osigdprHasCookie(cookieName, cookieValue) {
+    return osigdprGetCookie(cookieName) == cookieValue;
+}
+
+function osigdprSetCookie() {
+    var div = document.createElement('div');
+    div.innerHTML = '<div><img src="https://r.osisoft.com/osibutton" style="display:none"></div>';
+    document.body.appendChild(div)
+    osigdprSetCookieInHours("CookieConsent", "Date of Consent on " + MyGetNowDate() + " at " + MyGetNowTime(), 8760);
+    osigdprLoadAllCookies();
+    var ccMsg = document.getElementById("cookieConsent");
+
+    if (ccMsg) {
+        if (typeof ccMsg.remove === 'function') {
+            ccMsg.remove();    //remove function is not supported in IE
+        }
+        else {
+            ccMsg.parentNode.removeChild(ccMsg);
+        }
+    }
+}
+
+function osigdprAllowToUseCookie() {
+    if (osigdprGetCookie("CookieConsent") != "") {
+        return true;
+    }
+    else {
+        var retGeoCookie = osigdprGetCookie("GeoLocation");
+
+        switch (retGeoCookie) {
+            case "true":
+                return false;
+                break;
+            case "false":
+                return true;
+                break;
+            default:
+                return (!osigdprIsInEU());
+        }
+    }
+}
+
+function osigdprIsInEU() {
+    try {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "https://api-osisoft.db-ip.com/v2/p241f10f6b5e2c73aaaa90db756f62c48e3f1e97/self", false);
+        xmlHttp.send(null);
+        var IsInEU = JSON.parse(xmlHttp.responseText).isEuMember;
+        osigdprSetCookieInHours("GeoLocation", IsInEU, 24);
+        return IsInEU;
+    }
+    catch (err) {
+        return true;
+    }
+}
+
+function osigdprBanner() {
+    var div = document.createElement('div');
+    div.innerHTML = '<div id="cookieConsent" style="right:2%;bottom:30px;margin:auto;z-index:1002;position:fixed;max-width:380px;padding:20px 15px;width:90%;background:#2c3e50;color:#fff;border-radius:4px;box-shadow:0 0 12px #000;font-size:17px"><div class="cookieMessage">OSIsoft uses cookies to measure traffic, enhance content, understand what visitors are looking for and personalize advertising.<br/>To learn more, see our <a target="_blank" href="https://www.osisoft.com/privacy-policy" style="color:#fff;text-decoration:underline">Privacy Policy</a>.</div><div style="text-align:right"><button style="cursor: pointer;margin-top:15px;background-color:#2980b9;-webkit-appearance:button;cursor:pointer;border-radius:4px;user-select:none;touch-action:manipulation;white-space:nowrap;vertical-align:middle;text-align:center;min-height:34px;padding:6px 12px;font-size:14px;line-height:1.42857143;color:#fff;border:1px solid transparent;display:inline-block" onclick="osigdprSetCookie()">Allow Cookies</button></div>' + '<div><img src="https://r.osisoft.com/osibanner" style="display:none"></div>';
+
+    document.body.appendChild(div);
+}
+
+
+function osigdprShowBanner() {
+    // in case the document is already rendered
+    if ((document.readyState == "complete"
+        || document.readyState == "loaded"
+        || document.readyState == "interactive") &&
+        (document.body != null)) {
+        // document has at least been parsed
+        osigdprBanner();
+    }
+    // modern browsers
+    else if (document.addEventListener) {
+        document.addEventListener("DOMContentLoaded", osigdprBanner);
+    }
+    // IE <= 8
+    else {
+        document.attachEvent('onreadystatechange', function () {
+            if (document.readyState == 'complete') osigdprBanner();
+        });
+    }
+}
+
+
+function MyGetNowDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
+function MyGetNowTime() {
+    var d = new Date(),
+        hour = '' + (d.getHours() + 1),
+        min = '' + d.getMinutes(),
+        sec = d.getSeconds();
+
+    if (min.length < 2) min = '0' + min;
+    if (sec.length < 2) sec = '0' + sec;
+
+    return [hour, min, sec].join(':');
+}
+
+function osigdprGetDomain() {
+    var UL = location.host.split(':');
+    var items = UL[0].split('.');
+    var dom = "." + items[items.length - 2] + "." + items[items.length - 1]
+    return dom;
+}
+
+function osigdprLoadAllCookies() {
+    switch (OSIGDPR) {
+        case "TS":
+        case "ADFS":
+        case "SSO":
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', GTMKey);
+
+            break;
+        case "Corp":
+            var dataLayer = window.dataLayer || [];
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl + '&gtm_auth=RGn0NQZMseuQcqNydks0EQ&gtm_preview=env-1&gtm_cookies_win=x'; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MK3VLF');
+
+            break;
+        default:
+            break;
+    }
+
+    // Marketo Tracking Code should be on all pages
+    (function () {
+        var didInit = false;
+        function initMunchkin() {
+            if (didInit === false) {
+                didInit = true;
+                Munchkin.init('784-HEO-539');
+            }
+        }
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://munchkin.marketo.net/munchkin.js';
+        s.onreadystatechange = function () {
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                initMunchkin();
+            }
+        };
+        s.onload = initMunchkin;
+        document.getElementsByTagName('head')[0].appendChild(s);
+    })();
+
+    osigdprSetCookieInHours("Load", OSIGDPR + " on " + MyGetNowDate() + " at " + MyGetNowTime(), 8760);
+}
+
+try {
+        var osiDomain = osigdprGetDomain();
+        var OSIGDPR;
+        var GTMKey;
+
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            var script = scripts[i];
+            if (script.getAttribute('src') != null) {
+                if (script.getAttribute('src').indexOf("osigdpr") >= 0) {
+                    OSIGDPR = script.getAttribute('data-osigdpr');
+                    GTMKey = script.getAttribute('data-gtm');
+                    var Domain = script.getAttribute('data-domain');
+                    if (Domain) {
+                        osiDomain = Domain;
+                    }
+                    break;
+                }
+            }
+        }
+        if (osigdprAllowToUseCookie())
+            osigdprLoadAllCookies();
+        else
+            osigdprShowBanner();
+}
+catch (e) {
+
+}

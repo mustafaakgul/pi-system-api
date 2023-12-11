@@ -1,0 +1,15 @@
+// This file was automatically generated from renderProfilePopup.soy.
+// Please don't edit this file by hand.
+
+goog.provide('jive.ps.nitro.profile.renderProfilePopup');
+
+goog.require('soy');
+goog.require('soydata');
+goog.require('soy.StringBuilder');
+
+
+jive.ps.nitro.profile.renderProfilePopup = function(opt_data, opt_sb) {
+  var output = opt_sb || new soy.StringBuilder();
+  output.append('<div class="clearfix n4jive_hover" id="n4jive_hover"><div class="n4jive_column_50 j-gamification-points-wrap" id="n4jive_hover_points"><!-- <h5>', soy.$$escapeHtml(jive.i18n._i18n('5be7ed',[])), ':</h5> --><p class="j-gamification-points font-color-meta"><span class="js-points"></span> ', soy.$$escapeHtml(jive.i18n._i18n('8c1e95',[])), '</p></div><div class="n4jive_column_50 j-gamification-level-wrap current_level" id="n4jive_hover_level"><!-- <h5>', soy.$$escapeHtml(jive.i18n._i18n('8fa9ba',[])), ':</h5> --><p><span class="js-level j-gamification-level"></span></p></div><div class="clearfix n4jive_hover_badges" id="n4jive_hover_recent_challenges"><strong class="font-color-meta">', soy.$$escapeHtml(jive.i18n._i18n('76a50e',[])), '</strong><div class="n4jive_hover_badges_wrap"><img src=\'', soy.$$escapeHtml(jive.soy.func.resourceUrl('/plugins/gamification/resources/images/ajaxload.gif')), '\' alt="loading..." /></div></div></div>');
+  return opt_sb ? '' : output.toString();
+};

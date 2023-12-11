@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<script src="https://cdn.zoomcharts-cloud.com/1/latest/zoomcharts.js"></script>
+
+<div id="demo"></div>
+
+
+<script>
+
+var t = new TimeChart(
+            {
+                container: document.getElementById("demo"),
+                navigation:{
+                    initialDisplayPeriod:"1349136000000 > 1364342400000",
+                    initialDisplayUnit: "2 h"
+                },
+                data:
+                {
+                    units:["h"],
+                    url: "http://127.0.0.1:8000/api/api"
+                },
+                valueAxisDefault: {
+                    title:"Values"
+                },
+                valueAxis:{
+                    "v1":{
+                        enabled: false,
+                        minValue: 0,
+                        maxValue: 1
+                    }
+                },
+                series:[
+                    {
+                        name:"Values",
+                        id:"value",
+                        type:"line",
+                        data:{
+                            index:1,
+                            aggregation:"avg"
+                        },
+                        style:{
+                            lineColor:"green",
+                            lineWidth: 1
+                        }
+                    },
+                    {
+                        name:"Missing data",
+                        id:"missing",
+                        type:"columns",
+                        showInLegend: false,
+                        valueAxis: "v1", //Hidden value axis
+                        data:{
+                            index:1,
+                            aggregation:"first",
+                            aggregatedValueFunction:function(value){return value != null ? 0: 1}
+                        },
+                        style:{
+                            fillColor: "salmon",
+                            lineColor:null,
+                            padding:[0,0]
+                        }
+                    }
+                ]
+            }
+    );
+
+</script>
+
+{% endblock body %}

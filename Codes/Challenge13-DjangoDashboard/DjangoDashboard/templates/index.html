@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+  <form method = "post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="piPoint2">PI Point</label>
+          </div>
+          <select class="custom-select" id="piPoint2" name="piPoint2">
+            <option selected>PI Point Seçin...</option>
+            {% for point in points %}
+            <option value={{forloop.counter}}>{{point}}</option>
+            {% endfor %}
+            {% comment %} <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option> {% endcomment %}
+          </select>
+        </div>
+        {% comment %} <div class="form-group">
+          <label for="exampleInputEmail1">Tag</label>
+          <input type="text" name = "tag" class="form-control" id="tag" aria-describedby="emailHelp" placeholder="Değerlerini görmek istediğiniz Tag'in ismini yazınız.">
+          <small id="emailHelp" class="form-text text-muted">Değerini görmek istediğiniz Tag ismini giriniz.</small>
+        </div> {% endcomment %}
+        <div class="form-group">
+          <label for="exampleInputPassword1">Başlangıç zamanı</label>
+          <input type="text" name = "startTime" class="form-control" id="startTime" placeholder="Başlangıç zamanı giriniz.">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Bitiş zamanı</label>
+          <input type="text" name = "endTime" class="form-control" id="endTime" placeholder="Bitiş zamanı giriniz. (*) şuana kadar demektir.">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Aralık</label>
+          <input type="text" name = "interval" class="form-control" id="interval" placeholder="Veriyi hangi aralıklarla görmek istediğinizi giriniz.">
+        </div>
+        <button href="table.html" type="submit" class="btn btn-primary">Göster</button>
+      </form>
+      <hr>
+  </div>
+</div>
+
+{% endblock body %}

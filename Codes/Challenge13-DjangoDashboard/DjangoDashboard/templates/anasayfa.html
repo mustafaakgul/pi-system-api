@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+  <form method = "post">
+        {% csrf_token %}
+        <div class="input-group mb-3">  
+        </div>
+        <h5>Hoşgeldiniz. Aşağıdaki bilgileri doldurmanız gerekmektedir.</h5>
+        <hr>
+        {% if info == "Başarısız" %}
+        <div class="alert alert-danger" role="alert">
+          Bilgiler eksik!
+        </div>
+        {% else %}
+        {% endif %}
+        {% comment %} <div class="form-group">
+          <label for="exampleInputEmail1">Tag</label>
+          <input type="text" name = "tag" class="form-control" id="tag" aria-describedby="emailHelp" placeholder="Değerlerini görmek istediğiniz Tag'in ismini yazınız.">
+          <small id="emailHelp" class="form-text text-muted">Değerini görmek istediğiniz Tag ismini giriniz.</small>
+        </div> {% endcomment %}
+        <div class="form-group">
+          <label for="exampleInputPassword1">IP Adresi</label>
+          <input type="text" name = "ipAdress" class="form-control" id="ipAdress" placeholder="Server'ın IP Adresini Giriniz...">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Kullanıcı Adı</label>
+          <input type="text" name = "username" class="form-control" id="username" placeholder="Kullanıcı Adı Giriniz. Domain\Kullanıcı Adı">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Şifre</label>
+          <input type="password" name = "password" class="form-control" id="password" placeholder="Şifre Giriniz...">
+        </div>
+        <button href="/dashboard" type="submit" class="btn btn-primary" name= "interpolied">Interpoiled Data</button>
+        <button href="/dashboard/recorded" type="submit" class="btn btn-primary" name = "recorded">Recorded Data</button>
+      </form>
+      <hr>
+  </div>
+</div>
+
+{% endblock body %}

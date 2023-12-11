@@ -1,0 +1,36 @@
+/*
+ * Copyright (C) 1999-2015 Jive Software. All rights reserved.
+ *
+ * This software is the proprietary information of Jive Software. Use is subject to license terms.
+ */
+
+define([
+    'apps/shared/models/rest_service',
+    '../../../lib/nitro/Nitro',
+    '../../../lib/n4jive/n4jive.hover'
+], function(RestService, Nitro, Hover) {
+    return RestService.extend(function (protect, _super) {
+
+        this.init = function (options) {
+            _super.init.call(this, options);
+            this.options = options;
+        };
+
+        this.loadProfileInformation = function () {
+            var nitro = new Nitro({
+                apiKey: this.options.apiKey,
+                timeStamp: this.options.timeStamp,
+                signature: this.options.signature,
+                server: this.options.server,
+                userId: this.options.userID,
+                localizationEnabled: this.options.localizationEnabled
+            });
+
+            var n4jiveHoverInstance = new Hover(nitro, {
+                ownerId: this.options.targetUserID,
+                pointCategory: "Points",
+                emptyChallengesText: this.options.emptyChallengesText
+            });
+        };
+    });
+});

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h3>Seçtiğiniz aralıkta {{tagName}} datasının değerler tablosu</h3>
+    <hr>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+        
+            <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Sıra</th>
+            <th scope="col">Zaman</th>
+            <th scope="col">Değer</th>
+          </tr>
+    </thead>
+    <tbody>
+  
+        {% if data %}
+        {% for timestamps, datas in zippedLists %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{timestamps}}</td>
+        <td>{{datas}}</td>
+    </tr>
+        {% endfor %}
+        {% else %}
+    <h3>Data Yok!</h3>
+        {% endif %}
+</tbody>
+</table>
+
+        </div>
+    </div>
+
+{% endblock body %}

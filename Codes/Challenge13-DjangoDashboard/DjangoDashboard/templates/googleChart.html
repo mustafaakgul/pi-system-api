@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+var endpoint = "http://127.0.0.1:8000/api/api"
+var chartData = [["Time", "Value"]];
+console.log(typeof chartData)
+$.ajax({
+method: "GET",
+url: endpoint,
+success: function(data){
+var valueData = data;
+for(i = 0; i< data.length; i++){
+    //console.log("Zaman Data: ", data[i].zaman)
+    chartData.push([String(new Date(data[i].zaman)).slice(0,24), Number(data[i].value)]);
+    }
+    console.log("Chart Data: ", chartData);
+},
+error: function(error_data){
+    console.log("error")
+    console.log(error_data)
+    }
+});
+
+function drawChart() {
+    console.log(chartData)
+    var data = google.visualization.arrayToDataTable(chartData);
+
+    var options = {
+        title: 'Tag Değeri',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    chart.draw(data, options);
+}
+</script>
+
+<div id="curve_chart" style="width: 2000px; height: 720px"></div>
+
+{% endblock body %}

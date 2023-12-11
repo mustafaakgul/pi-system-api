@@ -1,0 +1,106 @@
+
+<!doctype html>
+<html>
+{% extends "layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+<head>
+	<title>Line Chart</title>
+	<script src="{% static 'js/chart.min.js' %}"></script>
+	<script src="{% static 'js/utils.js' %}"></script>
+	<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<body>
+    
+	<div class = "chart" style="width:75%;">
+		<canvas width="2000" id="canvas"></canvas>
+	</div>
+	<br>
+	<br>
+	<script>
+        var endpoint = "http://127.0.0.1:8000/api/api"
+        var valuesArray = [];
+        var timestampArray = [];
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                valueData = data.value
+                console.log(data)
+                var i;
+                for(i = 0; i< data.length; i++){
+                    valuesArray.push(data[i].value)
+                    timestampArray.push(data[i].zaman)
+                }
+            },
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+		var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		var config = {
+			type: 'line',
+			data: {
+				labels: timestampArray,
+				datasets: [{
+					label: 'Data Paketi',
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: valuesArray,
+					fill: false,
+				},]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Data Değerleri'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Zaman'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Değer'
+						}
+					}]
+				}
+			}
+		};
+
+		setTimeout(window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+            window.myLine = new Chart(ctx, config);
+		}, 1000);
+
+	</script>
+</body>
+{% endblock body %}
+</html>

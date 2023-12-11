@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+var endpoint = "http://127.0.0.1:8000/api/api"
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+chart.paddingRight = 20;
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+    var valueData = data;
+    var chartData = [];
+    for(var i = 0; i< data.length; i++){
+      chartData.push({date: new Date(String(data[i].zaman)), visits: data[i].value});
+      }
+      console.log("Chart Data: ", chartData);
+      chart.data = chartData;
+    },
+    error: function(error_data){
+      console.log("error")
+      console.log(error_data)
+    }
+});
+
+// Create chart
+
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.baseInterval = {
+  "timeUnit": "minute",
+  "count": 1
+};
+dateAxis.tooltipDateFormat = "HH:mm, d MMMM";
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+valueAxis.title.text = "Değer";
+
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.dateX = "date";
+series.dataFields.valueY = "visits";
+series.tooltipText = "Değer: [bold]{valueY}[/]";
+series.fillOpacity = 0.3;
+
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.lineY.opacity = 0;
+chart.scrollbarX = new am4charts.XYChartScrollbar();
+chart.scrollbarX.series.push(series);
+
+
+dateAxis.start = 0.8;
+dateAxis.keepSelection = true;
+
+}); // end am4core.ready()
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
+
+{% endblock body %}
