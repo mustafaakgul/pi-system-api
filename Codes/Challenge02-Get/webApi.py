@@ -3,7 +3,7 @@ from requests.auth import HTTPBasicAuth
 
 user = '{USER}\PI4DEV'
 passw = 'Password1'
-url = "https://172.16.4.95/piwebapi/"
+url = "https://{IP}/piwebapi/"
 pathx = 'C:\\Users\\PI4Dev\\Desktop\\PIDevPython'
 #headers = {}
 #print(user, passw, url)

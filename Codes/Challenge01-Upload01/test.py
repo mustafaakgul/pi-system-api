@@ -2,7 +2,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 
-url = "https://172.16.4.95/piwebapi/dataservers/F1DS9gA_4i5ui0aJABcUJd1W1gUEk0REVWUEk/points/"
+url = "https://{IP}/piwebapi/dataservers/F1DS9gA_4i5ui0aJABcUJd1W1gUEk0REVWUEk/points/"
 serverWebID = "F1DS9gA_4i5ui0aJABcUJd1W1gUEk0REVWUEk"
 #response = requests.get(url,auth=HTTPBasicAuth('PI4DEV','Password1'),verify=False)
 myData = {

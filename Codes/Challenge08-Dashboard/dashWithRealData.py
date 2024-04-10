@@ -31,7 +31,7 @@ def update_graph(inputDayData, inputTimeData):
     if(inputDayData == "" or inputTimeData == ""):
         pass
     else:
-        url = "https://172.16.4.95/piwebapi/streams/F1DP9gA_4i5ui0aJABcUJd1W1gAQAAAAUEk0REVWUElcU0lOVVNPSUQ/interpolated?startTime=T-{}&endTime={}&Interval={}".format(inputDayData,"T",inputTimeData)
+        url = "https://{IP}/piwebapi/streams/F1DP9gA_4i5ui0aJABcUJd1W1gAQAAAAUEk0REVWUElcU0lOVVNPSUQ/interpolated?startTime=T-{}&endTime={}&Interval={}".format(inputDayData,"T",inputTimeData)
         values = []
         timestamps = []
         response = requests.get(url, verify = False, auth = HTTPBasicAuth(username, password), headers = headers)

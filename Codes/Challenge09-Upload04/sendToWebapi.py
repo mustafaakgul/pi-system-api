@@ -5,7 +5,7 @@ import urllib3
 
 # defining the api-endpoint  
 #\\lehmannme7480\AAA
-API_ENDPOINT = "https://172.16.4.95/piwebapi/streams/F1DP9gA_4i5ui0aJABcUJd1W1gDgAAAAUEk0REVWUElcWU5ZUE9JTlQ/value/"
+API_ENDPOINT = "https://{IP}/piwebapi/streams/F1DP9gA_4i5ui0aJABcUJd1W1gDgAAAAUEk0REVWUElcWU5ZUE9JTlQ/value/"
 
 # data to be sent to api 
 data = {
