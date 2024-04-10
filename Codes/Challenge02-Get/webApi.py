@@ -12,7 +12,7 @@ response = requests.get(url, verify = False , auth=HTTPBasicAuth(user, passw))
 print(response.text)
 
 # url = "https://devdata.osisoft.com/piwebapi/streams/F1DPW6Wlk0_Utku9vWTvxg45oAMRcAAAUElTUlYxXENJVFlCSUtFU18oVE8pQklLRV8wMS4gQ0VSVE9TQSAgIFAuTEUgQVZJU19FTVBUWSBTTE9UUw/value"
-# response = requests.get(url, verify=False, auth=HTTPBasicAuth('webapiuser', '!try3.14webapi!'))
+# response = requests.get(url, verify=False, auth=HTTPBasicAuth('{USER}r', '!try3.14webapi!'))
 # print(response.headers)
 # print(response.text)
 

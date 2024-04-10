@@ -37,7 +37,7 @@ public class DemoApplication{
     //private static String TargertURL = "https://{hostname}/piwebapi/streams/{webID}/interpolated?startTime=T-10d&endTime=T&Interval=1h";
     //public static final String apiUrl = "https://devdata.osisoft.com/piwebapi/streams/F1DPW6Wlk0_Utku9vWTvxg45oAMRcAAAUElTUlYxXENJVFlCSUtFU18oVE8pQklLRV8wMS4gQ0VSVE9TQSAgIFAuTEUgQVZJU19FTVBUWSBTTE9UUw/value";
     public static final String apiUrl = "https://172.16.4.95/piwebapi";
-    //public static final String username = "webapiuser";
+    //public static final String username = "{USER}r";
     public static final String username = "{USER}\\PI4Dev";
     //public static final String password = "!try3.14webapi!";
     public static final String password = "Password1";

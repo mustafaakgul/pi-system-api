@@ -26,7 +26,7 @@ public class PIWebApiTests {
 
     @Test
     public void testDebug() throws Exception {
-        PIWebApiClient client = new PIWebApiClient("https://devdata.osisoft.com/piwebapi/", "webapiuser", "!try3.14webapi!", true, true);
+        PIWebApiClient client = new PIWebApiClient("https://devdata.osisoft.com/piwebapi/", "{USER}r", "!try3.14webapi!", true, true);
         HomeApi home = client.getHome();
         try {
 
@@ -55,7 +55,7 @@ public class PIWebApiTests {
 
     @Test
     public void testSuccessInvalidCertApi() throws Exception {
-        PIWebApiClient client = new PIWebApiClient("https://devdata.osisoft.com/piwebapi/", "webapiuser", "!try3.14webapi!", false, false);
+        PIWebApiClient client = new PIWebApiClient("https://devdata.osisoft.com/piwebapi/", "{USER}r", "!try3.14webapi!", false, false);
         HomeApi home = client.getHome();
         try {
 

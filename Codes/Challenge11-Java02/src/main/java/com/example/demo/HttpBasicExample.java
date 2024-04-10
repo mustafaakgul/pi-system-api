@@ -13,7 +13,7 @@ public class HttpBasicExample {
 
     public static void main(String[] args) {
 
-        String usernameColonPassword = "webapiuser:!try3.14webapi!";
+        String usernameColonPassword = "{USER}r:!try3.14webapi!";
         String basicAuthPayload = "Basic " + Base64.getEncoder().encodeToString(usernameColonPassword.getBytes());
 
         BufferedReader httpResponseReader = null;
