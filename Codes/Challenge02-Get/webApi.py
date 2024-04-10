@@ -1,7 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
-user = 'KMT\PI4DEV'
+user = '{USER}\PI4DEV'
 passw = 'Password1'
 url = "https://172.16.4.95/piwebapi/"
 pathx = 'C:\\Users\\PI4Dev\\Desktop\\PIDevPython'

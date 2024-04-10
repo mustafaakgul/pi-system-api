@@ -9,13 +9,12 @@ import datetime
 
 print("Hello World")
 
-username = r"KMT\PI4DEV"
+username = r"{USER}\PI4DEV"
 password = "Password1"
 headers = {"X-Requested-With": "XMLHttpRequest"}
 app = dash.Dash()
 app.title = "PiSystem"
 app.layout = html.Div(children= [
-    html.H1(children="Kontrolmatik"),
     html.Label("Ne Zaman Başlasın?:  "),
     dcc.Input(id="inputDay", value= "", type="text"),
     html.Label("   Ne Aralıkla?:  "),
